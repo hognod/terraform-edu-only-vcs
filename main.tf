@@ -7,3 +7,13 @@ resource "aws_vpc" "main" {
     Name = "tom-vpc"
   }
 }
+
+resource "aws_vpc" "main2" {
+  cidr_block = "10.0.0.0/16"
+  enable_dns_support = true
+  enable_dns_hostnames = true
+
+  tags = {
+    Name = "tom-vpc-2"
+  }
+}
