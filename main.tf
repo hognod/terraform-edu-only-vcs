@@ -77,7 +77,7 @@ resource "aws_key_pair" "main" {
   public_key = tls_private_key.main.public_key_openssh
 }
 
-resource "local_file" "private_key" {
+resource "local_file" "main" {
   content  = tls_private_key.main.private_key_pem
   filename = "${path.module}/${var.prefix}.pem"
   file_permission = "0400"
@@ -85,15 +85,21 @@ resource "local_file" "private_key" {
 
 data "aws_ami" "main" {
   most_recent = true
+  owners      = ["099720109477"] # Canonical
 
   filter {
     name   = "name"
-    values = ["Ubuntu*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
   }
-  
+
   filter {
     name   = "virtualization-type"
     values = ["hvm"]
+  }
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
   }
 }
 
